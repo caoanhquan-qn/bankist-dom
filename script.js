@@ -8,10 +8,14 @@ const overlay = document.querySelector(".overlay");
 const btnCloseModal = document.querySelector(".btn--close-modal");
 const btnsOpenModal = document.querySelectorAll(".btn--show-modal");
 const navLink = document.querySelectorAll(".nav__link");
+const navLinks = document.querySelector(".nav__links");
 const navLogo = document.querySelector(".nav__logo");
+const nav = document.querySelector(".nav");
 
 const btnScroll = document.querySelector(".btn--scroll-to");
 const section1 = document.querySelector("#section--1");
+// const section2 = document.querySelector("#section--2");
+// const section3 = document.querySelector("#section--3");
 
 const openModal = function (event) {
   event.preventDefault();
@@ -55,12 +59,19 @@ const mouseLeave = function (event) {
   }
 };
 
-navLink[0].addEventListener("mouseenter", mouseEnter);
-navLink[1].addEventListener("mouseenter", mouseEnter);
-navLink[2].addEventListener("mouseenter", mouseEnter);
-navLink[3].addEventListener("mouseenter", mouseEnter);
+navLink.forEach((navlink) => {
+  navlink.addEventListener("mouseenter", mouseEnter);
+});
+navLink.forEach((navlink) => {
+  navlink.addEventListener("mouseleave", mouseLeave);
+});
 
-navLink[0].addEventListener("mouseleave", mouseLeave);
-navLink[1].addEventListener("mouseleave", mouseLeave);
-navLink[2].addEventListener("mouseleave", mouseLeave);
-navLink[3].addEventListener("mouseleave", mouseLeave);
+navLinks.addEventListener("click", function (event) {
+  event.preventDefault();
+  //matching strategy
+  if (event.target.classList.contains("nav__link")) {
+    const id = event.target.getAttribute("href");
+    console.log(id);
+    document.querySelector(id).scrollIntoView({ behavior: "smooth" });
+  }
+});
