@@ -17,6 +17,13 @@ const section1 = document.querySelector("#section--1");
 // const section2 = document.querySelector("#section--2");
 // const section3 = document.querySelector("#section--3");
 
+const btnOperationsTab1 = document.querySelector(".operations__tab--1");
+const btnOperationsTab2 = document.querySelector(".operations__tab--2");
+const btnOperationsTab3 = document.querySelector(".operations__tab--3");
+const operationsContent1 = document.querySelector(".operations__content--1");
+const operationsContent2 = document.querySelector(".operations__content--2");
+const operationsContent3 = document.querySelector(".operations__content--3");
+
 const openModal = function (event) {
   event.preventDefault();
   modal.classList.remove("hidden");
@@ -42,6 +49,8 @@ btnScroll.addEventListener("click", function () {
   section1.scrollIntoView({ behavior: "smooth" });
 });
 
+//implement navigation bar
+
 const mouseEnter = function (event) {
   event.preventDefault();
   for (let i = 0; i < navLink.length; i++) {
@@ -66,6 +75,8 @@ navLink.forEach((navlink) => {
   navlink.addEventListener("mouseleave", mouseLeave);
 });
 
+// page navigation
+
 navLinks.addEventListener("click", function (event) {
   event.preventDefault();
   //matching strategy
@@ -74,4 +85,33 @@ navLinks.addEventListener("click", function (event) {
     console.log(id);
     document.querySelector(id).scrollIntoView({ behavior: "smooth" });
   }
+});
+
+// tabbed component
+
+btnOperationsTab1.addEventListener("click", function () {
+  btnOperationsTab1.classList.add("operations__tab--active");
+  operationsContent1.classList.add("operations__content--active");
+  btnOperationsTab2.classList.remove("operations__tab--active");
+  operationsContent2.classList.remove("operations__content--active");
+  btnOperationsTab3.classList.remove("operations__tab--active");
+  operationsContent3.classList.remove("operations__content--active");
+});
+
+btnOperationsTab2.addEventListener("click", function () {
+  btnOperationsTab2.classList.add("operations__tab--active");
+  operationsContent2.classList.add("operations__content--active");
+  btnOperationsTab1.classList.remove("operations__tab--active");
+  operationsContent1.classList.remove("operations__content--active");
+  btnOperationsTab3.classList.remove("operations__tab--active");
+  operationsContent3.classList.remove("operations__content--active");
+});
+
+btnOperationsTab3.addEventListener("click", function () {
+  btnOperationsTab3.classList.add("operations__tab--active");
+  operationsContent3.classList.add("operations__content--active");
+  btnOperationsTab2.classList.remove("operations__tab--active");
+  operationsContent2.classList.remove("operations__content--active");
+  btnOperationsTab1.classList.remove("operations__tab--active");
+  operationsContent1.classList.remove("operations__content--active");
 });
