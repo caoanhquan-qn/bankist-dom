@@ -11,18 +11,17 @@ const navLink = document.querySelectorAll(".nav__link");
 const navLinks = document.querySelector(".nav__links");
 const navLogo = document.querySelector(".nav__logo");
 const nav = document.querySelector(".nav");
+const header = document.querySelector(".header");
 
 const btnScroll = document.querySelector(".btn--scroll-to");
 const section1 = document.querySelector("#section--1");
-// const section2 = document.querySelector("#section--2");
-// const section3 = document.querySelector("#section--3");
 
-const btnOperationsTab1 = document.querySelector(".operations__tab--1");
-const btnOperationsTab2 = document.querySelector(".operations__tab--2");
-const btnOperationsTab3 = document.querySelector(".operations__tab--3");
-const operationsContent1 = document.querySelector(".operations__content--1");
-const operationsContent2 = document.querySelector(".operations__content--2");
-const operationsContent3 = document.querySelector(".operations__content--3");
+const operationsTabContainer = document.querySelector(
+  ".operations__tab-container"
+);
+
+const btnTab = document.querySelectorAll(".operations__tab");
+const operationsContent = document.querySelectorAll(".operations__content");
 
 const openModal = function (event) {
   event.preventDefault();
@@ -45,6 +44,9 @@ document.addEventListener("keydown", function (e) {
     closeModal();
   }
 });
+
+// implement smooth scrolling
+
 btnScroll.addEventListener("click", function () {
   section1.scrollIntoView({ behavior: "smooth" });
 });
@@ -79,6 +81,8 @@ navLink.forEach((navlink) => {
 
 navLinks.addEventListener("click", function (event) {
   event.preventDefault();
+  console.log(event.target);
+
   //matching strategy
   if (event.target.classList.contains("nav__link")) {
     const id = event.target.getAttribute("href");
@@ -89,29 +93,44 @@ navLinks.addEventListener("click", function (event) {
 
 // tabbed component
 
-btnOperationsTab1.addEventListener("click", function () {
-  btnOperationsTab1.classList.add("operations__tab--active");
-  operationsContent1.classList.add("operations__content--active");
-  btnOperationsTab2.classList.remove("operations__tab--active");
-  operationsContent2.classList.remove("operations__content--active");
-  btnOperationsTab3.classList.remove("operations__tab--active");
-  operationsContent3.classList.remove("operations__content--active");
+operationsTabContainer.addEventListener("click", function (e) {
+  const btnTarget = e.target.closest("button");
+
+  // guard clause
+  if (!btnTarget) return;
+
+  //remove active classes
+
+  btnTab.forEach((tab) => {
+    tab.classList.remove("operations__tab--active");
+  });
+
+  operationsContent.forEach((content) => {
+    content.classList.remove("operations__content--active");
+  });
+
+  // activate tab and content area
+
+  if (btnTarget) {
+    btnTarget.classList.add("operations__tab--active");
+    const dataTab = btnTarget.dataset.tab;
+    const contentVersion = `.operations__content--${dataTab}`;
+    document
+      .querySelector(contentVersion)
+      .classList.add("operations__content--active");
+  }
 });
 
-btnOperationsTab2.addEventListener("click", function () {
-  btnOperationsTab2.classList.add("operations__tab--active");
-  operationsContent2.classList.add("operations__content--active");
-  btnOperationsTab1.classList.remove("operations__tab--active");
-  operationsContent1.classList.remove("operations__content--active");
-  btnOperationsTab3.classList.remove("operations__tab--active");
-  operationsContent3.classList.remove("operations__content--active");
-});
+// sticky navigation bar
 
-btnOperationsTab3.addEventListener("click", function () {
-  btnOperationsTab3.classList.add("operations__tab--active");
-  operationsContent3.classList.add("operations__content--active");
-  btnOperationsTab2.classList.remove("operations__tab--active");
-  operationsContent2.classList.remove("operations__content--active");
-  btnOperationsTab1.classList.remove("operations__tab--active");
-  operationsContent1.classList.remove("operations__content--active");
-});
+const headerHeight = Number.parseInt(getComputedStyle(header).height);
+
+function sticky() {
+  if (window.pageYOffset >= headerHeight) {
+    nav.classList.add("sticky");
+  } else {
+    nav.classList.remove("sticky");
+  }
+}
+
+window.addEventListener("scroll", sticky);
