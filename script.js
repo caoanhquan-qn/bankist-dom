@@ -126,7 +126,7 @@ operationsTabContainer.addEventListener("click", function (e) {
 const headerHeight = Number.parseInt(getComputedStyle(header).height);
 
 function sticky() {
-  if (window.pageYOffset >= headerHeight) {
+  if (window.pageYOffset >= headerHeight - 90) {
     nav.classList.add("sticky");
   } else {
     nav.classList.remove("sticky");
