@@ -123,14 +123,67 @@ operationsTabContainer.addEventListener("click", function (e) {
 
 // sticky navigation bar
 
-const headerHeight = Number.parseInt(getComputedStyle(header).height);
+const navHeight = nav.getBoundingClientRect().height;
 
-function sticky() {
-  if (window.pageYOffset >= headerHeight - 90) {
+const obsCallback = function (entries) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) {
     nav.classList.add("sticky");
+    section1.classList.remove("section--hidden");
   } else {
     nav.classList.remove("sticky");
   }
-}
+};
+const obsOptions = {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+};
+const observer = new IntersectionObserver(obsCallback, obsOptions);
+observer.observe(header);
 
-window.addEventListener("scroll", sticky);
+// reveal elements on scrolling
+
+const section = document.querySelectorAll(".section"); //NodeList(4)
+section.forEach((node) => node.classList.add("section--hidden"));
+
+const section2 = document.querySelector("#section--2");
+const section3 = document.querySelector("#section--3");
+const revealSection2 = function (entries) {
+  const [entry] = entries; // entry === IntersectionObserverEntry
+  console.log(entry);
+  if (entry.isIntersecting) {
+    section2.classList.remove("section--hidden");
+  }
+};
+const options = {
+  root: null,
+  threshold: 0.2,
+};
+const observerSection = new IntersectionObserver(revealSection2, options);
+observerSection.observe(section2);
+
+const revealSection3 = function (entries) {
+  const [entry] = entries; // entry === IntersectionObserverEntry
+  console.log(entry);
+  if (entry.isIntersecting) {
+    section3.classList.remove("section--hidden");
+  }
+};
+const observerSection3 = new IntersectionObserver(revealSection3, options);
+observerSection3.observe(section3);
+
+const sectionSignUp = document.querySelector(".section--sign-up");
+
+const revealSectionSignUp = function (entries) {
+  const [entry] = entries; // entry === IntersectionObserverEntry
+  console.log(entry);
+  if (entry.isIntersecting) {
+    sectionSignUp.classList.remove("section--hidden");
+  }
+};
+const observerSectionSignUp = new IntersectionObserver(
+  revealSectionSignUp,
+  options
+);
+observerSectionSignUp.observe(sectionSignUp);
