@@ -129,7 +129,6 @@ const obsCallback = function (entries) {
   const [entry] = entries;
   if (!entry.isIntersecting) {
     nav.classList.add("sticky");
-    section1.classList.remove("section--hidden");
   } else {
     nav.classList.remove("sticky");
   }
@@ -149,6 +148,25 @@ section.forEach((node) => node.classList.add("section--hidden"));
 
 const section2 = document.querySelector("#section--2");
 const section3 = document.querySelector("#section--3");
+const sectionSignUp = document.querySelector(".section--sign-up");
+
+const options = {
+  root: null,
+  threshold: 0.15,
+};
+
+const revealSection1 = function (entries, observer) {
+  const [entry] = entries;
+  console.log(entry);
+  console.log(observer);
+  if (entry.isIntersecting) {
+    section1.classList.remove("section--hidden");
+  }
+};
+
+const observerSection1 = new IntersectionObserver(revealSection1, options);
+observerSection1.observe(section1);
+
 const revealSection2 = function (entries) {
   const [entry] = entries; // entry === IntersectionObserverEntry
   console.log(entry);
@@ -156,12 +174,9 @@ const revealSection2 = function (entries) {
     section2.classList.remove("section--hidden");
   }
 };
-const options = {
-  root: null,
-  threshold: 0.2,
-};
-const observerSection = new IntersectionObserver(revealSection2, options);
-observerSection.observe(section2);
+
+const observerSection2 = new IntersectionObserver(revealSection2, options);
+observerSection2.observe(section2);
 
 const revealSection3 = function (entries) {
   const [entry] = entries; // entry === IntersectionObserverEntry
@@ -172,8 +187,6 @@ const revealSection3 = function (entries) {
 };
 const observerSection3 = new IntersectionObserver(revealSection3, options);
 observerSection3.observe(section3);
-
-const sectionSignUp = document.querySelector(".section--sign-up");
 
 const revealSectionSignUp = function (entries) {
   const [entry] = entries; // entry === IntersectionObserverEntry
