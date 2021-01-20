@@ -143,60 +143,27 @@ observer.observe(header);
 
 // reveal elements on scrolling
 
-const section = document.querySelectorAll(".section"); //NodeList(4)
-section.forEach((node) => node.classList.add("section--hidden"));
-
-const section2 = document.querySelector("#section--2");
-const section3 = document.querySelector("#section--3");
-const sectionSignUp = document.querySelector(".section--sign-up");
+const sections = document.querySelectorAll(".section"); //NodeList(4)
 
 const options = {
   root: null,
   threshold: 0.15,
 };
 
-const revealSection1 = function (entries, observer) {
+const revealSection = function (entries, observer) {
   const [entry] = entries;
-  console.log(entry);
-  console.log(observer);
-  if (entry.isIntersecting) {
-    section1.classList.remove("section--hidden");
-  }
+
+  // guard clause
+  if (!entry.isIntersecting) return;
+
+  entry.target.classList.remove("section--hidden");
+  observer.unobserve(entry.target);
 };
 
-const observerSection1 = new IntersectionObserver(revealSection1, options);
-observerSection1.observe(section1);
+const observerSection = new IntersectionObserver(revealSection, options);
+sections.forEach((section) => {
+  section.classList.add("section--hidden");
+  observerSection.observe(section);
+});
 
-const revealSection2 = function (entries) {
-  const [entry] = entries; // entry === IntersectionObserverEntry
-  console.log(entry);
-  if (entry.isIntersecting) {
-    section2.classList.remove("section--hidden");
-  }
-};
-
-const observerSection2 = new IntersectionObserver(revealSection2, options);
-observerSection2.observe(section2);
-
-const revealSection3 = function (entries) {
-  const [entry] = entries; // entry === IntersectionObserverEntry
-  console.log(entry);
-  if (entry.isIntersecting) {
-    section3.classList.remove("section--hidden");
-  }
-};
-const observerSection3 = new IntersectionObserver(revealSection3, options);
-observerSection3.observe(section3);
-
-const revealSectionSignUp = function (entries) {
-  const [entry] = entries; // entry === IntersectionObserverEntry
-  console.log(entry);
-  if (entry.isIntersecting) {
-    sectionSignUp.classList.remove("section--hidden");
-  }
-};
-const observerSectionSignUp = new IntersectionObserver(
-  revealSectionSignUp,
-  options
-);
-observerSectionSignUp.observe(sectionSignUp);
+// lazy loading images
