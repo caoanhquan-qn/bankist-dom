@@ -191,3 +191,81 @@ const observerImg = new IntersectionObserver(revealImg, {
 featureImages.forEach((img) => {
   observerImg.observe(img);
 });
+
+// build slider components
+
+const btnLeft = document.querySelector(".slider__btn--left");
+const btnRight = document.querySelector(".slider__btn--right");
+const btnDots = document.querySelectorAll(".dots__dot");
+const slides = document.querySelectorAll(".slide");
+const slider1 = document.querySelector(".slide--1");
+const slider2 = document.querySelector(".slide--2");
+const slider3 = document.querySelector(".slide--3");
+
+// set initial condition
+let currentSlide = 0;
+function goToSlide(currentPosition) {
+  slides.forEach((slide, index) => {
+    slide.style.transform = `translateX(${(index - currentPosition) * 100}%)`;
+  });
+}
+goToSlide(currentSlide);
+
+// next slide
+
+function dotActive(num) {
+  if (num === 0) {
+    btnDots[0].classList.add("dots__dot--active");
+    btnDots[1].classList.remove("dots__dot--active");
+    btnDots[2].classList.remove("dots__dot--active");
+  } else if (num === 1) {
+    btnDots[0].classList.remove("dots__dot--active");
+    btnDots[1].classList.add("dots__dot--active");
+    btnDots[2].classList.remove("dots__dot--active");
+  } else if (num === 2) {
+    btnDots[0].classList.remove("dots__dot--active");
+    btnDots[1].classList.remove("dots__dot--active");
+    btnDots[2].classList.add("dots__dot--active");
+  }
+}
+
+btnRight.addEventListener("click", function () {
+  if (currentSlide === slides.length - 1) {
+    currentSlide = 0;
+  } else {
+    currentSlide++;
+  }
+  goToSlide(currentSlide);
+  dotActive(currentSlide);
+});
+
+// previous slide
+
+btnLeft.addEventListener("click", function () {
+  if (currentSlide === 0) {
+    currentSlide = slides.length - 1;
+  } else {
+    currentSlide--;
+  }
+  goToSlide(currentSlide);
+  dotActive(currentSlide);
+});
+
+// dots button
+
+btnDots[0].addEventListener("click", function () {
+  currentSlide = 0;
+  dotActive(currentSlide);
+  goToSlide(0);
+});
+btnDots[1].addEventListener("click", function () {
+  currentSlide = 1;
+  dotActive(currentSlide);
+  goToSlide(1);
+});
+
+btnDots[2].addEventListener("click", function () {
+  currentSlide = 2;
+  dotActive(currentSlide);
+  goToSlide(2);
+});
