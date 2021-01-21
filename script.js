@@ -210,26 +210,22 @@ function goToSlide(currentPosition) {
   });
 }
 goToSlide(currentSlide);
+dotActive(currentSlide);
 
-// next slide
+// active dot
 
 function dotActive(num) {
+  btnDots.forEach((btnDot) => btnDot.classList.remove("dots__dot--active"));
   if (num === 0) {
     btnDots[0].classList.add("dots__dot--active");
-    btnDots[1].classList.remove("dots__dot--active");
-    btnDots[2].classList.remove("dots__dot--active");
   } else if (num === 1) {
-    btnDots[0].classList.remove("dots__dot--active");
     btnDots[1].classList.add("dots__dot--active");
-    btnDots[2].classList.remove("dots__dot--active");
   } else if (num === 2) {
-    btnDots[0].classList.remove("dots__dot--active");
-    btnDots[1].classList.remove("dots__dot--active");
     btnDots[2].classList.add("dots__dot--active");
   }
 }
 
-btnRight.addEventListener("click", function () {
+function nextSlide() {
   if (currentSlide === slides.length - 1) {
     currentSlide = 0;
   } else {
@@ -237,11 +233,8 @@ btnRight.addEventListener("click", function () {
   }
   goToSlide(currentSlide);
   dotActive(currentSlide);
-});
-
-// previous slide
-
-btnLeft.addEventListener("click", function () {
+}
+function previousSlide() {
   if (currentSlide === 0) {
     currentSlide = slides.length - 1;
   } else {
@@ -249,7 +242,15 @@ btnLeft.addEventListener("click", function () {
   }
   goToSlide(currentSlide);
   dotActive(currentSlide);
-});
+}
+
+// next slide
+
+btnRight.addEventListener("click", nextSlide);
+
+// previous slide
+
+btnLeft.addEventListener("click", previousSlide);
 
 // dots button
 
@@ -268,4 +269,14 @@ btnDots[2].addEventListener("click", function () {
   currentSlide = 2;
   dotActive(currentSlide);
   goToSlide(2);
+});
+
+// keyboard event
+
+document.addEventListener("keydown", function (e) {
+  if (e.key === "ArrowLeft") {
+    previousSlide();
+  } else if (e.key === "ArrowRight") {
+    nextSlide();
+  }
 });
