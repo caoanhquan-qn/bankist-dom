@@ -196,6 +196,7 @@ featureImages.forEach((img) => {
 
 const btnLeft = document.querySelector(".slider__btn--left");
 const btnRight = document.querySelector(".slider__btn--right");
+const dots = document.querySelector(".dots");
 const btnDots = document.querySelectorAll(".dots__dot");
 const slides = document.querySelectorAll(".slide");
 const slider1 = document.querySelector(".slide--1");
@@ -203,6 +204,7 @@ const slider2 = document.querySelector(".slide--2");
 const slider3 = document.querySelector(".slide--3");
 
 // set initial condition
+
 let currentSlide = 0;
 function goToSlide(currentPosition) {
   slides.forEach((slide, index) => {
@@ -212,18 +214,7 @@ function goToSlide(currentPosition) {
 goToSlide(currentSlide);
 dotActive(currentSlide);
 
-// active dot
-
-function dotActive(num) {
-  btnDots.forEach((btnDot) => btnDot.classList.remove("dots__dot--active"));
-  if (num === 0) {
-    btnDots[0].classList.add("dots__dot--active");
-  } else if (num === 1) {
-    btnDots[1].classList.add("dots__dot--active");
-  } else if (num === 2) {
-    btnDots[2].classList.add("dots__dot--active");
-  }
-}
+// next slide
 
 function nextSlide() {
   if (currentSlide === slides.length - 1) {
@@ -234,6 +225,11 @@ function nextSlide() {
   goToSlide(currentSlide);
   dotActive(currentSlide);
 }
+
+btnRight.addEventListener("click", nextSlide);
+
+// previous slide
+
 function previousSlide() {
   if (currentSlide === 0) {
     currentSlide = slides.length - 1;
@@ -244,31 +240,24 @@ function previousSlide() {
   dotActive(currentSlide);
 }
 
-// next slide
-
-btnRight.addEventListener("click", nextSlide);
-
-// previous slide
-
 btnLeft.addEventListener("click", previousSlide);
+
+// active dot
+
+function dotActive(num) {
+  btnDots.forEach((btnDot) => btnDot.classList.remove("dots__dot--active"));
+  btnDots[`${num}`].classList.add("dots__dot--active");
+}
 
 // dots button
 
-btnDots[0].addEventListener("click", function () {
-  currentSlide = 0;
-  dotActive(currentSlide);
-  goToSlide(0);
-});
-btnDots[1].addEventListener("click", function () {
-  currentSlide = 1;
-  dotActive(currentSlide);
-  goToSlide(1);
-});
-
-btnDots[2].addEventListener("click", function () {
-  currentSlide = 2;
-  dotActive(currentSlide);
-  goToSlide(2);
+dots.addEventListener("click", function (e) {
+  // matching strategy
+  if (e.target.classList.contains("dots__dot")) {
+    const btnNum = e.target.dataset.slide;
+    dotActive(btnNum);
+    goToSlide(btnNum);
+  }
 });
 
 // keyboard event
